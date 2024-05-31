@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'screens/onboarding_screen.dart';
 
+
+//halo thirza
 void main() {
   runApp(FlightBookingApp());
 }
