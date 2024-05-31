@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import the intl package for currency formatting
 import 'booking_details_screen.dart';
 
 class FlightSearchScreen extends StatelessWidget {
@@ -36,18 +37,19 @@ class FlightSearchScreen extends StatelessWidget {
       ),
       body: Container(
         color: Color(0xFF0064D2),
-        child: ListView(
+        child: ListView.builder(
           padding: EdgeInsets.all(16.0),
-          children: [
-            FlightCard(
+          itemCount: 3, // Set the number of tickets to display
+          itemBuilder: (context, index) {
+            return FlightCard(
               from: from,
               to: to,
               departureTime: '8:00 AM',
               arrivalTime: '7:00 AM',
-              duration: '23:00',
+              duration: '2j 0m',
               date: departureDate,
-              airline: 'Qatar Airways',
-              price: 340.0,
+              airline: 'Lion Air',
+              price: 1562382.0, // Price in Indonesian Rupiah
               travelers: travelers,
               onTap: () {
                 Navigator.push(
@@ -62,9 +64,8 @@ class FlightSearchScreen extends StatelessWidget {
                   ),
                 );
               },
-            ),
-            // Additional FlightCard widgets can be added here if needed
-          ],
+            );
+          },
         ),
       ),
     );
@@ -98,6 +99,9 @@ class FlightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Format the price to Indonesian Rupiah
+    final formattedPrice = NumberFormat.currency(locale: 'id_ID', symbol: 'IDR').format(price);
+
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -111,7 +115,7 @@ class FlightCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Column(
@@ -121,22 +125,28 @@ class FlightCard extends StatelessWidget {
                           from,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 16),
                         Text(
-                          '8:00 AM',
+                          departureTime,
                           style: TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      'assets/images/flight_trip_icon.png',
-                      height: 48, // Besarkan ukuran gambar
-                      width: 48, // Besarkan ukuran gambar
-                      color: Colors.blue,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/flight_trip_icon.png',
+                        height: 100, // Adjust size as needed
+                        width: 100,  // Adjust size as needed
+                        color: Colors.blue,
+                      ),
+                      Text(
+                        duration,
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    ],
                   ),
                   Expanded(
                     child: Column(
@@ -146,23 +156,13 @@ class FlightCard extends StatelessWidget {
                           to,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 16),
                         Text(
-                          '7:00 AM',
+                          arrivalTime,
                           style: TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center, // Letakkan duration ditengah
-                children: [
-                  Text(
-                    '23:00',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 ],
               ),
@@ -175,7 +175,7 @@ class FlightCard extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                   Text(
-                    '\$$price',
+                    formattedPrice, // Display the formatted price
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],

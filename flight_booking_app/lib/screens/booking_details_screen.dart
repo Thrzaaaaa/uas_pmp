@@ -79,7 +79,7 @@ class BookingDetailsScreen extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset('assets/images/arrow_left.png', width: 24, height: 24),
+                child: Image.asset('assets/images/arrow left.png', width: 24, height: 24),
               ),
             ),
             Text(
